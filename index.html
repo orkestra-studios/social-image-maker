@@ -4,16 +4,53 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Orkestra | Social Image Maker</title>
-		<link rel="stylesheet" href="/maker/css/min.css" type="text/css">
+		<link rel="stylesheet" href="/maker/css/min.css"   type="text/css">
+		<link rel="stylesheet" href="/maker/css/style.css" type="text/css">
 	</head>
 	<body>
 		<div class="container"> 
 			<h2>Social Image Maker</h2>
 			<div class="row">
-					<div class="col c4">
+					<div id="canvas-container" class="col" style="width:610px";>
 						<canvas id="canvas" class="canvas"></canvas><br/>
+                        <a href="#" class="btn btn-a btn-sm mini smooth" id="btn-download" download="orkestra-img.png">Download</a>
 					</div>
-					<div class="col c8">8</div>
+					<div class="col c6">
+					    <form action="#">
+                            <fieldset>
+                                <legend>Content</legend>
+                                <input name="header1" type="text" placeholder="Header ln. 1"/><br/>
+                                <input name="header2" type="text" placeholder="Header ln. 2"/><br/>
+                                <input name="caption" type="text" placeholder="Caption"/><br/>
+                                <label>Position:<br/>
+                                    <span class="mini">Top:</span> <input type="radio" name="header-pos" value="top"/><br/>
+                                    <span class="mini">Top/Slanted:</span> <input type="radio" name="header-pos" value="top/slanted"/><br/>
+                                    <span class="mini">Bottom:</span> <input type="radio" name="header-pos" value="bottom"/><br/>
+                                    <span class="mini">Left:</span> <input type="radio" name="header-pos" value="left"/><br/>
+                                </label><br/>
+                                <label>Container:<br/>
+                                    <span class="mini">Brightness:</span></br> <input type="range" name="brightness" value="90" min="0" max="255"><br/>
+                                    <span class="mini">Alpha:</span></br> <input type="range" name="alpha" value="10"><br/>
+                                </label>
+                                
+
+                            </fieldset>
+                            <fieldset>
+                                <legend>Media</legend>
+                                <span class="mini">Chose a media file...</span></br> 
+                                <input type="file" name="media" accept="video/mp4,image/*">
+                                <span class="mini">Scale:</span></br> <input type="range" name="img-scale" value="100" max="150" min="50"><br/>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Hashtag</legend>
+                                <input name="hashtag" type="text" placeholder="hashtag"/><br/>
+                                <label>Position:<br/>
+                                    <span class="mini">Left:</span> <input type="radio" name="hashtag-pos" value="left"/><br/>
+                                    <span class="mini">Right:</span> <input type="radio" name="hashtag-pos" value="right"/><br/>
+                                </label>
+                            </fieldset>
+                        </form>
+					</div>
 			</div>
 		</div>
 

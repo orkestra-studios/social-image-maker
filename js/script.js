@@ -7,78 +7,96 @@ var header1 = "Dünya üzerinde tam 1 milyar aktif"
 var header2 = "Apple cihazı bulunmakta."
 var caption = "Neredeyse Hindistan nüfusu kadar!", hashtag = "#orkestra";
 
+var img_values = {"header1":"", "header2":"", "caption":"", "image":"/maker/img/fback.png", "hashtag":"#orkestra", "brightness":"0.3", "alpha":"0.8", "img-scale":"100"}
+
 drawLogo = function () {
 	logo=document.createElement("img");
 	logo.onload=function(){
-		console.log('loaded logo');
-		ctx.drawImage(logo,872,10,120,120);
+		ctx.drawImage(logo,510,10,90,90);
 	}
 	logo.src="/maker/img/logo.png";
 }
 
 drawHeading = function () {
+    alpha = img_values["alpha"]/100.0;
+    brigh = img_values["brightness"];
+    tcolr = 255-brigh;
 	ctx.beginPath();
-	ctx.fillStyle = "rgba(60,60,60,0.5)";
-	ctx.lineTo(0,300);
-	ctx.lineTo(1000,300);
-	ctx.lineTo(1000,0);
+	ctx.fillStyle = "rgba("+brigh+","+brigh+","+brigh+","+alpha+")";
+	ctx.lineTo(0,200);
+	ctx.lineTo(600,200);
+	ctx.lineTo(600,0);
 	ctx.lineTo(0,0);
-  ctx.fill();
+	ctx.fill();
 	
 	ctx.textBaseline = "alphabetic"
 	ctx.textAlign = "left";
-	ctx.fillStyle = "rgba(256,256,256,0.9)";
-	ctx.font = 'bold 48px "Arial Rounded MT Bold"';
-	ctx.fillText(header1, 20, 60 , 1000)
-	ctx.fillText(header2, 20, 120 , 1000)
+	ctx.fillStyle = "rgba("+tcolr+","+tcolr+","+tcolr+",0.9)";
+	ctx.font = 'bold 32px "Arial Rounded MT Bold"';
+	ctx.fillText(img_values["header1"], 20, 64 , 600)
+	ctx.fillText(img_values["header2"], 20, 128 , 600)
 	
-	hoffset = header2.length>0?50:0;
+	hoffset = img_values["header2"].length>0?60:0;
 
-	ctx.fillStyle = "rgba(228,228,228,0.9)";
-	ctx.font = 'normal 32px "Arial Rounded MT Bold"';
-	ctx.fillText(caption, 20, 125+hoffset , 600)
+	ctx.fillStyle = "rgba("+tcolr-20+","+tcolr-20+","+tcolr-20+"0.9)";
+	ctx.font = 'normal 22px "Arial Rounded MT Bold"';
+	ctx.fillText(img_values["caption"], 20, 125+hoffset , 600)
 }
 
 drawHashtag = function() {
 	ctx.fillStyle = "rgba(248,248,248,1)";
-	ctx.font = 'bold 32px "Avenir Next Condensed"';
+	ctx.font = 'bold 22px "Avenir Next Condensed"';
 	ctx.textBaseline = "middle";
 	ctx.textAlign = "center";
-	var text = ctx.measureText(hashtag);
-	offset = text.width/2+38;
-	ctx.fillText(hashtag, 1000-offset, 1000-48)
+	var text = ctx.measureText(img_values["hashtag"]);
+	offset = text.width/2+22;
+	ctx.fillText(img_values["hashtag"], 600-offset, 600-30)
 	ctx.strokeStyle = "rgba(248,248,248,1)";
-	ctx.lineWidth = 6;
-	loffset = text.width+48
-	ctx.strokeRect(1000-loffset,1000-80,text.width+18,56);
+	ctx.lineWidth = 4;
+	loffset = text.width+30
+	ctx.strokeRect(600-loffset,600-51,text.width+16,36);
 }
 
-drawImage = function (x,y) {
+drawImage = function () {
 	image=document.createElement("img");
 	image.onload=function(){
-		ctx.drawImage(image,x,y);
+		ctx.drawImage(image,posX,posY,image.width*img_values['img-scale']/100,image.height*img_values['img-scale']/100);
 		drawHeading();
 		drawHashtag();
 		drawLogo();
 	}
-	image.src="/maker/img/1443372210269.jpg";
+	image.src=img_values["image"];
 }
 
-redraw = function(x,y) {
-		ctx.drawImage(image,x,y);
-		drawHeading();
-		drawHashtag();
-	  ctx.drawImage(logo,872,10,120,120);
+redraw = function() {
+	image.src=img_values["image"];
+	ctx.drawImage(image,posX,posY,image.width*img_values['img-scale']/100,image.height*img_values['img-scale']/100);
+	drawHeading();
+	drawHashtag();
+	ctx.drawImage(logo,872,10,120,120);
 }
 
 $(document).ready(function(){
-	canvas=document.getElementById("canvas");
-	canvas.width = 500;
-	canvas.height = 500;
-	ctx=canvas.getContext("2d");
-	ctx.scale(0.5,0.5)
 
-  drawImage(posX,posY);	
+    $('input').on("change",handleValueChange);
+
+	canvas=document.getElementById("canvas");
+	container = $("#canvas-container")
+	console.log('cw:'+container.width());
+	console.log('ch:'+container.height());
+	ctx=canvas.getContext("2d");
+	cdim = container.width()-10;
+	canvas.width =  cdim; //max width
+	canvas.height = cdim; //max height
+	ctx.scale(cdim/600.0,cdim/600.0);
+	console.log('cs:'+cdim/600.0);
+
+    ctx.mozImageSmoothingEnabled = true;
+    ctx.webkitImageSmoothingEnabled = true;
+    ctx.msImageSmoothingEnabled = true;
+    ctx.imageSmoothingEnabled = true;
+
+    drawImage();	
 	init();
 
 	function init(){
@@ -103,9 +121,9 @@ $(document).ready(function(){
 					posY += y-lastY;
 					if(posX>0) posX=0;
 					if(posY>0) posY=0;
-					if(posX<-image.width+canvas.width) posX = -image.width+canvas.width;
-					if(posY<-image.height+canvas.height) posY = -image.height+canvas.height;
-					redraw(posX, posY);
+					if(posX<-image.width*img_values['img-scale']/100+canvas.width) posX = -image.width*img_values['img-scale']/100+canvas.width;
+					if(posY<-image.height*img_values['img-scale']/100+canvas.height) posY = -image.height*img_values['img-scale']/100+canvas.height;
+					redraw();
 				}
 				lastX=x;
 				lastY=y;
@@ -120,4 +138,27 @@ $(document).ready(function(){
 			y: evt.clientY - rect.top
 		};
 	}
+
+    var button = document.getElementById('btn-download');
+    button.addEventListener('click', function (e) {
+        var dataURL = canvas.toDataURL('image/png');
+        button.href = dataURL;
+    });
 });
+
+
+handleValueChange = function(e) {
+    console.log('key: ',e.target.name);
+    console.log('val: ',e.target.value);
+    img_values[e.target.name] = e.target.value;
+    if(e.target.type=='file') {
+        reader = new FileReader();
+        file = e.target.files[0]
+        reader.onload = function (event) {
+            console.log("q: ", event.target);
+            img_values["image"] = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+    redraw();
+};
