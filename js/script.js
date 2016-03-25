@@ -13,7 +13,7 @@ drawLogo = function () {
 		console.log('loaded logo');
 		ctx.drawImage(logo,872,10,120,120);
 	}
-	logo.src="./logo.png";
+	logo.src="/maker/img/logo.png";
 }
 
 drawHeading = function () {
@@ -61,7 +61,7 @@ drawImage = function (x,y) {
 		drawHashtag();
 		drawLogo();
 	}
-	image.src="./1443372210269.jpg";
+	image.src="/maker/img/1443372210269.jpg";
 }
 
 redraw = function(x,y) {
