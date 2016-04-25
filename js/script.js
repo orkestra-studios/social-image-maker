@@ -14,7 +14,7 @@ drawLogo = function () {
     if(img_values['header-pos']=='left')
       cheight = 100;
     else
-      cheight = lines.length * 29 + 40;
+      cheight = lines.length>0?lines.length * 29 + 40:100;
 		ctx.drawImage(logo,510, cheight/2.0 - 45 ,90,90);
 	}
 	logo.src="/maker/img/logo.png";
