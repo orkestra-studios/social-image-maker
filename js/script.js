@@ -3,16 +3,19 @@ var posX = 0, posY = 0;
 var lastX, lastY;
 var logo, image;
 var alpha, brightness
-var header1 = "Dünya üzerinde tam 1 milyar aktif" 
-var header2 = "Apple cihazı bulunmakta."
 var caption = "Neredeyse Hindistan nüfusu kadar!", hashtag = "#orkestra";
+var lines = new Array();
 
-var img_values = {"header1":"", "header2":"", "caption":"", "image":"/maker/img/fback.png", "hashtag":"#orkestra", "brightness":"80", "alpha":"80", "img-scale":"100", "hashtag-pos":"right", "header-pos":"top"}
+var img_values = {"caption":"", "image":"/maker/img/fback.png", "hashtag":"#orkestra", "brightness":"80", "alpha":"80", "img-scale":"100", "hashtag-pos":"right", "header-pos":"top"}
 
 drawLogo = function () {
 	logo=document.createElement("img");
 	logo.onload=function(){
-		ctx.drawImage(logo,510,10,90,90);
+    if(img_values['header-pos']=='left')
+      cheight = 100;
+    else
+      cheight = lines.length * 29 + 40;
+		ctx.drawImage(logo,510, cheight/2.0 - 45 ,90,90);
 	}
 	logo.src="/maker/img/logo.png";
 }
@@ -21,45 +24,61 @@ drawHeading = function () {
     alpha = img_values["alpha"]/100.0;
     brigh = img_values["brightness"];
     tcolr = 255-brigh;
-	ctx.beginPath();
-	ctx.fillStyle = "rgba("+brigh+","+brigh+","+brigh+","+alpha+")";
-    if(img_values['header-pos']=='top') {
-        ctx.lineTo(0,200);
-        ctx.lineTo(600,200);
-        ctx.lineTo(600,0);
-        ctx.lineTo(0,0);
-        ctx.fill();
-    } else if(img_values['header-pos']=='top-slanted') {
-        ctx.lineTo(0,250);
-        ctx.lineTo(600,60);
-        ctx.lineTo(600,0);
-        ctx.lineTo(0,0);
-        ctx.fill();
-    } else if(img_values['header-pos']=='left') {
-        ctx.lineTo(250,0);
-        ctx.lineTo(250,600);
-        ctx.lineTo(0,600);
-        ctx.lineTo(0,0);
-        ctx.fill();
-    }
+	  ctx.beginPath();
+	  ctx.fillStyle = "rgba("+brigh+","+brigh+","+brigh+","+alpha+")";
 
-	ctx.textBaseline = "alphabetic"
+  text = img_values["caption"]
+  lines = new Array();
+  var width = 0, i, j;
+  max_width = img_values['header-pos']=='left'?200:460;
+  while ( text.length ) {
+      for( i=text.length; ctx.measureText(text.substr(0,i)).width > max_width; i-- );
+      result = text.substr(0,i);
+      if ( i !== text.length )
+          for( j=0; result.indexOf(" ",j) !== -1; j=result.indexOf(" ",j)+1 );
+      lines.push( result.substr(0, j|| result.length) );
+      width = Math.max( width, ctx.measureText(lines[ lines.length-1 ]).width);
+      text  = text.substr( lines[ lines.length-1 ].length, text.length );
+  }
+
+  cheight = lines.length * 29 + 40;
+
+  if(img_values['header-pos']=='top') {
+      ctx.lineTo(0,cheight);
+      ctx.lineTo(600,cheight);
+      ctx.lineTo(600,0);
+      ctx.lineTo(0,0);
+      ctx.fill();
+  } else if(img_values['header-pos']=='top-slanted') {
+      ctx.lineTo(0,250);
+      ctx.lineTo(600,60);
+      ctx.lineTo(600,0);
+      ctx.lineTo(0,0);
+      ctx.fill();
+  } else if(img_values['header-pos']=='left') {
+      ctx.lineTo(250,0);
+      ctx.lineTo(250,600);
+      ctx.lineTo(0,600);
+      ctx.lineTo(0,0);
+      ctx.fill();
+  }
+
+	ctx.textBaseline = "center"
 	ctx.textAlign = "left";
-	ctx.fillStyle = "rgba("+tcolr+","+tcolr+","+tcolr+",0.9)";
-	ctx.font = '600 24px "Avenir Next Condensed"';
-	ctx.fillText(img_values["header1"], 20, 64 , 600)
-	ctx.fillText(img_values["header2"], 20, 96 , 600)
-	
-	hoffset = img_values["header2"].length>0?24:0;
+  ctx.fillStyle = "rgba("+tcolr+","+tcolr+","+tcolr+",0.9)";
+	ctx.font = '400 24px "PT Sans"';
 
-	ctx.fillStyle = "rgba("+tcolr-20+","+tcolr-20+","+tcolr-20+"0.9)";
-	ctx.font = '600 24px "Avenir Next Condensed"';
-	ctx.fillText(img_values["caption"], 20, 104+hoffset , 600)
+  top_offset = img_values['header-pos']=='left'?(600 - lines.length*29)/2 :20
+
+  for ( i=0, j=lines.length; i<j; ++i ) {
+	  ctx.fillText(lines[i], 20, top_offset+20 + 29 * i)
+  }
+
 }
 
 drawHashtag = function() {
 	ctx.fillStyle = "rgba(248,248,248,1)";
-	ctx.font = 'bold 22px "Avenir Next Condensed"';
+	ctx.font = 'bold 22px "PT Sans"';
 	ctx.textBaseline = "middle";
 	ctx.textAlign = "center";
 	ctx.strokeStyle = "rgba(248,248,248,1)";
@@ -69,7 +88,7 @@ drawHashtag = function() {
 	if(img_values['hashtag-pos']=='left') {
 		ctx.fillText(img_values["hashtag"], offset, 600-30)
 		ctx.strokeRect(14,600-51,text.width+16,36);
-	} else {
+	} if(img_values['hashtag-pos']=='right') {
 		loffset = text.width+30
 		ctx.fillText(img_values["hashtag"], 600-offset, 600-30)
 		ctx.strokeRect(600-loffset,600-51,text.width+16,36);
@@ -98,6 +117,7 @@ redraw = function() {
 $(document).ready(function(){
 
     $('input').on("change",handleValueChange);
+    $('textarea').on("change",handleValueChange);
 
 	canvas=document.getElementById("canvas");
 	container = $("#canvas-container")
