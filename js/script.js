@@ -41,7 +41,7 @@ drawHeading = function () {
       text  = text.substr( lines[ lines.length-1 ].length, text.length );
   }
 
-  cheight = lines.length * 29 + 40;
+  cheight = lines.length>0?lines.length * 29 + 40:0;
 
   if(img_values['header-pos']=='top') {
       ctx.lineTo(0,cheight);
