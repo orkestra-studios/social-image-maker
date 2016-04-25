@@ -7,7 +7,7 @@ var header1 = "Dünya üzerinde tam 1 milyar aktif"
 var header2 = "Apple cihazı bulunmakta."
 var caption = "Neredeyse Hindistan nüfusu kadar!", hashtag = "#orkestra";
 
-var img_values = {"header1":"", "header2":"", "caption":"", "image":"/maker/img/fback.png", "hashtag":"#orkestra", "brightness":"0.3", "alpha":"0.8", "img-scale":"100"}
+var img_values = {"header1":"", "header2":"", "caption":"", "image":"/maker/img/fback.png", "hashtag":"#orkestra", "brightness":"80", "alpha":"80", "img-scale":"100", "hashtag-pos":"right", "header-pos":"top"}
 
 drawLogo = function () {
 	logo=document.createElement("img");
@@ -23,24 +23,38 @@ drawHeading = function () {
     tcolr = 255-brigh;
 	ctx.beginPath();
 	ctx.fillStyle = "rgba("+brigh+","+brigh+","+brigh+","+alpha+")";
-	ctx.lineTo(0,200);
-	ctx.lineTo(600,200);
-	ctx.lineTo(600,0);
-	ctx.lineTo(0,0);
-	ctx.fill();
-	
+    if(img_values['header-pos']=='top') {
+        ctx.lineTo(0,200);
+        ctx.lineTo(600,200);
+        ctx.lineTo(600,0);
+        ctx.lineTo(0,0);
+        ctx.fill();
+    } else if(img_values['header-pos']=='top-slanted') {
+        ctx.lineTo(0,250);
+        ctx.lineTo(600,60);
+        ctx.lineTo(600,0);
+        ctx.lineTo(0,0);
+        ctx.fill();
+    } else if(img_values['header-pos']=='left') {
+        ctx.lineTo(250,0);
+        ctx.lineTo(250,600);
+        ctx.lineTo(0,600);
+        ctx.lineTo(0,0);
+        ctx.fill();
+    }
+
 	ctx.textBaseline = "alphabetic"
 	ctx.textAlign = "left";
 	ctx.fillStyle = "rgba("+tcolr+","+tcolr+","+tcolr+",0.9)";
-	ctx.font = 'bold 32px "Arial Rounded MT Bold"';
+	ctx.font = '600 24px "Avenir Next Condensed"';
 	ctx.fillText(img_values["header1"], 20, 64 , 600)
-	ctx.fillText(img_values["header2"], 20, 128 , 600)
+	ctx.fillText(img_values["header2"], 20, 96 , 600)
 	
-	hoffset = img_values["header2"].length>0?60:0;
+	hoffset = img_values["header2"].length>0?24:0;
 
 	ctx.fillStyle = "rgba("+tcolr-20+","+tcolr-20+","+tcolr-20+"0.9)";
-	ctx.font = 'normal 22px "Arial Rounded MT Bold"';
-	ctx.fillText(img_values["caption"], 20, 125+hoffset , 600)
+	ctx.font = '600 24px "Avenir Next Condensed"';
+	ctx.fillText(img_values["caption"], 20, 104+hoffset , 600)
 }
 
 drawHashtag = function() {
@@ -48,13 +62,18 @@ drawHashtag = function() {
 	ctx.font = 'bold 22px "Avenir Next Condensed"';
 	ctx.textBaseline = "middle";
 	ctx.textAlign = "center";
-	var text = ctx.measureText(img_values["hashtag"]);
-	offset = text.width/2+22;
-	ctx.fillText(img_values["hashtag"], 600-offset, 600-30)
 	ctx.strokeStyle = "rgba(248,248,248,1)";
 	ctx.lineWidth = 4;
-	loffset = text.width+30
-	ctx.strokeRect(600-loffset,600-51,text.width+16,36);
+	var text = ctx.measureText(img_values["hashtag"]);
+	offset = text.width/2+22;
+	if(img_values['hashtag-pos']=='left') {
+		ctx.fillText(img_values["hashtag"], offset, 600-30)
+		ctx.strokeRect(14,600-51,text.width+16,36);
+	} else {
+		loffset = text.width+30
+		ctx.fillText(img_values["hashtag"], 600-offset, 600-30)
+		ctx.strokeRect(600-loffset,600-51,text.width+16,36);
+	}
 }
 
 drawImage = function () {
