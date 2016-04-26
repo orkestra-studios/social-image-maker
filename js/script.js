@@ -66,7 +66,7 @@ drawHeading = function () {
 	ctx.textBaseline = "center"
 	ctx.textAlign = "left";
   ctx.fillStyle = "rgba("+tcolr+","+tcolr+","+tcolr+",0.9)";
-	ctx.font = '400 24px "PT Sans"';
+	ctx.font = '400 24px default';
 
   top_offset = img_values['header-pos']=='left'?(600 - lines.length*29)/2 :20
 
@@ -78,7 +78,7 @@ drawHeading = function () {
 
 drawHashtag = function() {
 	ctx.fillStyle = "rgba(248,248,248,1)";
-	ctx.font = 'bold 22px "PT Sans"';
+	ctx.font = 'bold 22px default';
 	ctx.textBaseline = "middle";
 	ctx.textAlign = "center";
 	ctx.strokeStyle = "rgba(248,248,248,1)";

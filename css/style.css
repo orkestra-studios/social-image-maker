@@ -1,11 +1,11 @@
 @font-face {
-  font-family: 'ptsans';
-  src: url('/maker/file/PTS55F.ttf');
-  src: url('/maker/file/PTS55F.ttf') format('truetype');
+  font-family: 'default';
+  src: url('/maker/file/Siginka-Regular.ttf');
+  src: url('/maker/file/Siginka-Regular.ttf') format('truetype');
 }
 
 body {
-  font-family: ptsans;
+  font-family: default;
 }
 
 input {
