@@ -1,11 +1,11 @@
 @font-face {
-  font-family: 'default';
-  src: url('/maker/file/Siginka-Regular.ttf');
-  src: url('/maker/file/Siginka-Regular.ttf') format('truetype');
+  font-family: 'signika';
+  src: url('/maker/file/Signika-Regular.ttf');
+  src: url('/maker/file/Signika-Regular.ttf') format('truetype');
 }
 
 body {
-  font-family: default;
+  font-family: signika;
 }
 
 input {

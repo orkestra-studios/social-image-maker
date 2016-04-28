@@ -63,12 +63,12 @@ drawHeading = function () {
       ctx.fill();
   }
 
-	ctx.textBaseline = "center"
+	ctx.textBaseline = "middle"
 	ctx.textAlign = "left";
   ctx.fillStyle = "rgba("+tcolr+","+tcolr+","+tcolr+",0.9)";
-	ctx.font = '400 24px default';
+	ctx.font = '400 21px signika';
 
-  top_offset = img_values['header-pos']=='left'?(600 - lines.length*29)/2 :20
+  top_offset = img_values['header-pos']=='left'?(600 - lines.length*29)/2 : 16
 
   for ( i=0, j=lines.length; i<j; ++i ) {
 	  ctx.fillText(lines[i], 20, top_offset+20 + 29 * i)
@@ -78,7 +78,7 @@ drawHeading = function () {
 
 drawHashtag = function() {
 	ctx.fillStyle = "rgba(248,248,248,1)";
-	ctx.font = 'bold 22px default';
+	ctx.font = 'bold 20px signika';
 	ctx.textBaseline = "middle";
 	ctx.textAlign = "center";
 	ctx.strokeStyle = "rgba(248,248,248,1)";
@@ -86,11 +86,11 @@ drawHashtag = function() {
 	var text = ctx.measureText(img_values["hashtag"]);
 	offset = text.width/2+22;
 	if(img_values['hashtag-pos']=='left') {
-		ctx.fillText(img_values["hashtag"], offset, 600-30)
+		ctx.fillText(img_values["hashtag"], offset, 600-31)
 		ctx.strokeRect(14,600-51,text.width+16,36);
 	} if(img_values['hashtag-pos']=='right') {
 		loffset = text.width+30
-		ctx.fillText(img_values["hashtag"], 600-offset, 600-30)
+		ctx.fillText(img_values["hashtag"], 600-offset, 600-31)
 		ctx.strokeRect(600-loffset,600-51,text.width+16,36);
 	}
 }
