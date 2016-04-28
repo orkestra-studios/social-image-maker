@@ -11,7 +11,7 @@ var img_values = {"caption":"", "image":"/maker/img/fback.png", "hashtag":"#orke
 drawLogo = function () {
 	logo=document.createElement("img");
 	logo.onload=function(){
-    if(img_values['header-pos']=='left')
+    if(img_values['header-pos']=='right')
       cheight = 100;
     else
       cheight = lines.length>0?lines.length * 29 + 40:100;
@@ -30,7 +30,7 @@ drawHeading = function () {
   text = img_values["caption"]
   lines = new Array();
   var width = 0, i, j;
-  max_width = img_values['header-pos']=='left'?200:460;
+  max_width = img_values['header-pos']=='right'?200:460;
   while ( text.length ) {
       for( i=text.length; ctx.measureText(text.substr(0,i)).width > max_width; i-- );
       result = text.substr(0,i);
@@ -55,10 +55,10 @@ drawHeading = function () {
       ctx.lineTo(600,0);
       ctx.lineTo(0,0);
       ctx.fill();
-  } else if(img_values['header-pos']=='left') {
-      ctx.lineTo(250,0);
-      ctx.lineTo(250,600);
-      ctx.lineTo(0,600);
+  } else if(img_values['header-pos']=='right') {
+      ctx.lineTo(350,0);
+      ctx.lineTo(350,600);
+      ctx.lineTo(600,600);
       ctx.lineTo(0,0);
       ctx.fill();
   }
@@ -68,7 +68,7 @@ drawHeading = function () {
   ctx.fillStyle = "rgba("+tcolr+","+tcolr+","+tcolr+",0.9)";
 	ctx.font = '400 24px default';
 
-  top_offset = img_values['header-pos']=='left'?(600 - lines.length*29)/2 :20
+  top_offset = img_values['header-pos']=='right'?(600 - lines.length*29)/2 :20
 
   for ( i=0, j=lines.length; i<j; ++i ) {
 	  ctx.fillText(lines[i], 20, top_offset+20 + 29 * i)
