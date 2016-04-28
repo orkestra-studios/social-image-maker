@@ -49,17 +49,11 @@ drawHeading = function () {
       ctx.lineTo(600,0);
       ctx.lineTo(0,0);
       ctx.fill();
-  } else if(img_values['header-pos']=='top-slanted') {
-      ctx.lineTo(0,250);
-      ctx.lineTo(600,60);
-      ctx.lineTo(600,0);
-      ctx.lineTo(0,0);
-      ctx.fill();
   } else if(img_values['header-pos']=='right') {
       ctx.lineTo(350,0);
       ctx.lineTo(350,600);
       ctx.lineTo(600,600);
-      ctx.lineTo(0,0);
+      ctx.lineTo(600,0);
       ctx.fill();
   }
 
