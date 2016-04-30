@@ -64,6 +64,7 @@ drawHeading = function () {
 
   top_offset = img_values['header-pos']=='right'?(600 - lines.length*29)/2 :20
 
+  left_offset = img_values['header-pos']=='right'?370:20
   for ( i=0, j=lines.length; i<j; ++i ) {
 	  ctx.fillText(lines[i], 20, top_offset+20 + 29 * i)
   }
